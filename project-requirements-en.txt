@@ -1,0 +1,17 @@
+Description of the application and problem statement.
+
+It is necessary to create an application in which it will be possible to set and view monthly expenses
+for recurring payments such as subscriptions to resources, payments for communication, insurance, etc.
+
+The application should have the following screens:
+     1. The main screen, the so-called Overview, which will display the total amount of expenses, as well as a list
+        in which each of the payments will be shown element by element. The list item should display
+        payment name, category and icon. There should be an option menu button on the list item card.
+        When you click on the option menu button, the action "Delete payment" is shown.
+        Clicking on the list item should open the payment details screen.
+     2. Screen with the addition of a monthly payment. On this screen there should be fields for entering the amount, name
+        payment, category selection and subscription date selection.
+     3. Screen for adding a payment category. The screen should have fields for entering the category name and selecting
+        icons from the list of suggested ones.
+     4. Payment details screen. The screen must be non-editable for the user on which to display
+        payment name, category, icon, payment date.
