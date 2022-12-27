@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
@@ -18,10 +21,31 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            val properties = Properties()
+            FileInputStream(file("signing.properties")).use { stream ->
+                properties.load(stream)
+            }
+            storeFile = file(properties.getProperty("keystoreFile"))
+            storePassword = properties.getProperty("keystorePassword").toString()
+            keyAlias = properties.getProperty("keyAlias").toString()
+            keyPassword = properties.getProperty("keyPassword").toString()
+        }
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -47,7 +71,7 @@ fun getBuildVersionName(): String {
     return try {
         System.getenv("BUILD_VERSION_NAME")?.toString() ?: "1.0"
     } catch (e: Exception) {
-        println("Failed get version name: ${e.localizedMessage}")
+        println("Failed get version name: ${e.message}")
         "1.0"
     }
 }
@@ -56,7 +80,7 @@ fun getBuildVersionCode(): Int {
     return try {
         System.getenv("BUILD_VERSION_CODE")?.toInt() ?: 1
     } catch (e: Exception) {
-        println("Failed get version name: ${e.localizedMessage}")
+        println("Failed get version name: ${e.message}")
         1
     }
 }
